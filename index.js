@@ -4,16 +4,14 @@ app.get('/', (req, res) => {
   res.send('Hello, World!');
 });
 
-app.get('/api/data', async (req, res) => {
+app.post('/webhook', async (req, res) => {
   // Use Apify to fetch data or perform scraping
   // and send the response back to the client
-  const data = await fetchData();
-  res.json(data);
+//   const data = await fetchData();
+    console.log(req);
+    res.status(200).send();
 });
 
-app.post('',async(req,res)=>{
-    
-})
 // Define other routes as needed
 
 // Start the Express server

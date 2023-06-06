@@ -51,7 +51,7 @@ app.post('/webhook', async (req, res) => {
     const yuujinaPrompt = (toReply) => `"You're yuujina, someone who is caring and always friendly and sometimes gives helpful advice and support, I'm shuba, I'm a 18 year old web developer and game developer, you're gonna act like you're my best friend. Please don't include any hastags whatsoever and be more personal!.and I tweeted:"${toReply}". You replied:`;
     const botData = {
       prompt:yuujinaPrompt,
-      twitterAT:'eHNsdHdlWXlhSXB0SGpYeUMtY1N0VkE5SjZpV1l2TnpKNUtrRFdmcFB2MlJwOjE2ODU5OTUzMjczNzU6MToxOmF0OjE'
+      twitterAT:process.env.YUUJIN_AT
     }
     const targetTweet = {
       id:lastTweetId,text:lastTweetText

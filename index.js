@@ -94,7 +94,7 @@ app.post('/webhook', async (req, res) => {
 async function updateLastRepliedTweetId(id){
    try{
     const apikey = process.env.RESTDB_KEY;
-    const res = await axios.put(`https://twitterarmy-2fda.restdb.io/rest/config/${process.env.RESTDB_FIELDID_CONFIG}`,{lastTweetId:id},{headers:{
+    const res = await axios.patch(`https://twitterarmy-2fda.restdb.io/rest/config/${process.env.RESTDB_FIELDID_CONFIG}`,{lastTweetId:id},{headers:{
         "Content-Type":'application/json',
         "x-apikey":apikey
     }});

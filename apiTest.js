@@ -22,20 +22,21 @@ async function testGpt(){
    //    max_tokens:210,
    // });
 
-   // const t = new TwitterApi('Vy0tUm8tdVRaYzNlTXRLUFpLUmJVcjRrM0Fva0hLM21iQWg5WEJxRjllSVlHOjE2ODYwNTM5ODkyNDQ6MToxOmF0OjE');
+   const keys = require('./config/KEY_YUUJIN.json');
+   const t = new TwitterApi(keys);
+   await t.v2.reply('hello again and again','1666049200134684672');
    // const t = new TwitterApi({
       
-   const apikey = process.env.RESTDB_KEY;
-   const res = await axios.get(`https://twitterarmy-2fda.restdb.io/rest/config/${process.env.RESTDB_FIELDID_CONFIG}`,{headers:{
-      "Content-Type":'application/json',
-      "x-apikey":apikey
-   }});
+   // const apikey = process.env.RESTDB_KEY;
+   // const res = await axios.get(`https://twitterarmy-2fda.restdb.io/rest/config/${process.env.RESTDB_FIELDID_CONFIG}`,{headers:{
+   //    "Content-Type":'application/json',
+   //    "x-apikey":apikey
+   // }});
 
-   console.log(res.data);
+   // console.log(res.data);
    // });
    // const botResponse = completion.data.choices[0].text;
    // console.log({tweet:targetTweet.text,botResponse});
-   // await t.v2.reply/('hello again','1666049200134684672');
    // return true;
    // console.log(yuujinaPrompt);
    // const req = await axios.get('https://api.apify.com/v2/datasets/GJBCsEIf4kcx87uI5/items');

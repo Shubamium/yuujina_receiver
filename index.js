@@ -62,9 +62,10 @@ app.post('/webhook', async (req, res) => {
 
     // const toReply = lastTweetText;
     const yuujinaPrompt = (toReply) => `"You're yuujina, someone who is caring and always friendly and sometimes gives helpful advice and support, I'm shuba, I'm a 18 year old web developer and game developer, you're gonna act like you're my best friend. Please don't include any hastags whatsoever and be more personal!.and I tweeted:"${toReply}". You replied:`;
+    const yuujinaKeys = require('./config/KEY_YUUJIN.json');
     const botData = {
       prompt:yuujinaPrompt,
-      twitterAT:process.env.YUUJIN_AT
+      keys:yuujinaKeys
     }
     const targetTweet = {
       id:lastTweetId,text:lastTweetText
@@ -132,7 +133,7 @@ async function botReply(botData,targetTweet,gptClient){
       max_tokens:210,
     });
 
-    const t = new TwitterApi(botData.twitterAT);
+    const t = new TwitterApi(botData.keys);
     const botResponse = completion.data.choices[0].text;
     console.log({...targetTweet,botResponse});
     await t.v2.reply(botResponse,targetTweet.id);

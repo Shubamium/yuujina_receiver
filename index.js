@@ -96,7 +96,7 @@ app.post('/webhook', async (req, res) => {
         You don't have to greet me.
         
         I shuba, tweeted:
-        "${toReply}"
+        ${toReply}
         You replied:
     `
     const Nekonyata = (toReply)=>`

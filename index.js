@@ -54,14 +54,19 @@ app.post('/webhook', async (req, res) => {
     const targetTweet = {
       id:lastTweetId,text:lastTweetText
     }
-    botReply(botData,targetTweet,openai);
+    const success = await botReply(botData,targetTweet,openai);
+
     // Get last replied tweet id from a simple rest api database;
     // Compare the twoo
     // If it's the same id then don't reply
     // If it isn't the same id then it's a new tweet
     // If it's a new tweet then get the full text   
     // initialize the twitter api wrapper v2 and login with access token
-    
+    if(success){
+      console.log('Bot replied succesfully');
+    }else{
+      console.log("There's something wrong when generating the reply tweet or trying to reply to the tweet");
+    }
     // Get openAI chat gpt to generate a response based on the tweet
     // reply to twitter with the lastTweetId
     // Do the same for every alt account you have
@@ -71,7 +76,9 @@ app.post('/webhook', async (req, res) => {
 
 
 async function botReply(botData,targetTweet,gptClient){
-   const completion = await gptClient.createCompletion({
+
+  try{
+    const completion = await gptClient.createCompletion({
       model:"text-davinci-003",
       prompt:botData.prompt(targetTweet.text),
       max_tokens:210,
@@ -79,7 +86,13 @@ async function botReply(botData,targetTweet,gptClient){
 
    const t = new TwitterApi(botData.twitterAT);
    const botResponse = completion.data.choices[0].text;
-   t.v2.reply(botResponse,targetTweet.id);
+   console.log({tweet:targetTweet.text,botResponse});
+   await t.v2.reply(botResponse,targetTweet.id);
+   return true;
+  }catch(err){
+    console.log(err);
+    return false;
+  }
 
 }
 // Define other routes as needed

@@ -72,6 +72,8 @@ app.post('/webhook', async (req, res) => {
       -Please don't use any hastags in the reply tweet and be more personal!,
       -Twitter has 280 characters limit so please don't break the limit.
       -You don't need to greet me.
+      -Don't put your reply in quotes
+
       The person you're replying to is me,
       I'm shuba I'm a 18 year old web developer and game developer, you're gonna act like you're my best friend. 
       You don't have to greet me.
@@ -87,17 +89,36 @@ app.post('/webhook', async (req, res) => {
         -Please don't use any hastags in the reply tweet and be more personal!,
         -Twitter has 280 characters limit so please don't break the limit.
         -You don't need to greet me.
+        -Don't put your reply in quotes
 
         The person you're replying to is me,
         I'm shuba I'm a 18 year old web developer and game developer, you're gonna act like you're my best friend. 
         You don't have to greet me.
-
+        
         I shuba, tweeted:
         "${toReply}"
         You replied:
     `
+    const Nekonyata = (toReply)=>`
+      You're name is Nekonyata, you're a cute(overly cutesy) cat-girl, you will reply to my tweet by acting really cutely and with -nya suffix sometimes. You will take everything I said and somehow make it wholesome and cute. 
+      You're gonna reply to my tweet with these conditions:
+        -Don't use any hastags in the reply tweet and be more personal!,
+        -Twitter has 280 characters limit so please don't break the limit.
+        -You don't need to greet me.
+        -Don't put your reply in quotes
+
+        The person you're replying to is me,
+        I'm shuba I'm a 18 year old web developer and game developer, you're gonna act like you're my best friend. 
+        You don't have to greet me.
+        
+        I shuba, tweeted:
+        "${toReply}"
+        You replied:
+    `
+    
     const yuujinaKeys = require('./config/KEY_YUUJIN.json');
     const jesusKeys = require('./config/KEY_JESUS.json');
+    const nekonyataKeys = require('./config/KEY_NEKONYATA.json');
     const botData = [
       {
         prompt:yuujinaPrompt,
@@ -106,6 +127,9 @@ app.post('/webhook', async (req, res) => {
       {
         prompt:EI_Jesus,
         keys:jesusKeys
+      },{
+        prompt:Nekonyata,
+        keys:nekonyataKeys
       }
     ]
     const targetTweet = {
@@ -115,6 +139,7 @@ app.post('/webhook', async (req, res) => {
     // reply with each bot
     success.push(await botReply(botData[0],targetTweet,openai));
     success.push(await botReply(botData[1],targetTweet,openai));
+    success.push(await botReply(botData[2],targetTweet,openai));
 
     if(success.every((tries) => {
       if(tries){return true}else{return false};

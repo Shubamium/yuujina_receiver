@@ -11,19 +11,30 @@ app.get('/', (req, res) => {
 app.post('/webhook', async (req, res) => {
     // Use Apify to fetch data or perform scraping
     const payload = req.body;
-    if(!payload.resource){
+   
+    // Get Recent Scrape Data through apify api
+    const datasetId = payload.resource.defaultDatasetId;
+    const datasetReq = null;
+
+    if(!datasetId){
+        console.log('Cannot get the dataset');
+        res.sendStatus(200);
+    }
+    
+    try{
+      datasetReq =  await axios.get(`https://api.apify.com/v2/datasets/${datasetId}/items`);
+    }catch(err){
+      console.log('Cannot get the dataset:',err);
       res.sendStatus(200);
       return;
     }
-    // Get Recent Scrape Data through apify api
-    const datasetId = payload.resource.defaultDatasetId;
-    const datasetReq = await axios.get(`https://api.apify.com/v2/datasets/${datasetId}/items`);
-    
+
     // Get data from dataset
     const shouldReply = !datasetReq.data[1].isRetweet && !datasetReq.data[1].is_quote_tweet;
     const lastTweetId = datasetReq.data[1].id;
     const lastTweetText = datasetReq.data[1].full_text;
 
+    console.log({shouldReply,lastTweetId,lastTweetId});
     // Get OpenAI Client 
     const {Configuration,OpenAIApi} = require('openai');
     const configuration = new Configuration({

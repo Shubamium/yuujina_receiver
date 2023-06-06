@@ -34,8 +34,8 @@ app.post('/webhook', async (req, res) => {
     const lastTweetId = datasetReq.data[1].id;
     const lastTweetText = datasetReq.data[1].full_text;
 
-    console.log({shouldReply,lastTweetId,lastTweetId});
-    
+    console.log({shouldReply,lastTweetId,lastTweetText});
+
     // Get OpenAI Client 
     const {Configuration,OpenAIApi} = require('openai');
     const configuration = new Configuration({

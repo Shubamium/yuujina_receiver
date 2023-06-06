@@ -110,7 +110,7 @@ async function getLastRepliedTweetId(){
           "Content-Type":'application/json',
           "x-apikey":apikey
       }});
-      const {lastRepliedTweet} = res.data[0].lastRepliedTweet;
+      const {lastRepliedTweet} = res.data.lastRepliedTweet;
       if(lastRepliedTweet){
         return lastRepliedTweet;
       }else{

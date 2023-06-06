@@ -62,7 +62,20 @@ app.post('/webhook', async (req, res) => {
 
 
     // const toReply = lastTweetText;
-    const yuujinaPrompt = (toReply) => `"You're yuujina, someone who is caring and always friendly and sometimes gives helpful advice and support, I'm shuba, I'm a 18 year old web developer and game developer, you're gonna act like you're my best friend. Please don't include any hastags whatsoever and be more personal!. I tweeted:"${toReply}". You replied:`;
+    const yuujinaPrompt = (toReply) => `
+      You're yuujina, someone who is caring and always friendly and sometimes gives helpful advice and support, 
+      You're gonna reply to my tweet with these conditions:
+      -Please don't use any hastags in the reply tweet and be more personal!,
+      -Twitter has 280 characters limit so please don't break the limit.
+
+      The person you're replying to is me,
+      I'm shuba I'm a 18 year old web developer and game developer, you're gonna act like you're my best friend. 
+
+      I shuba, tweeted:
+      "${toReply}"
+      You replied:
+    `;
+
     const yuujinaKeys = require('./config/KEY_YUUJIN.json');
     const botData = {
       prompt:yuujinaPrompt,
@@ -131,7 +144,7 @@ async function botReply(botData,targetTweet,gptClient){
     const completion = await gptClient.createCompletion({
       model:"text-davinci-003",
       prompt:botData.prompt(targetTweet.text),
-      max_tokens:180,
+      max_tokens:65,
     });
 
     const t = new TwitterApi(botData.keys);

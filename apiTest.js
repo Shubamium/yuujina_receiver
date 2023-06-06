@@ -26,11 +26,12 @@ async function testGpt(){
    // const t = new TwitterApi({
       
    const apikey = process.env.RESTDB_KEY;
-   const res = await axios.put(`https://twitterarmy-2fda.restdb.io/rest/config/647f4516a1ce30200004f1ac`,{lastRepliedTweet:'1666049200134684672'},{headers:{
+   const res = await axios.get(`https://twitterarmy-2fda.restdb.io/rest/config/${process.env.RESTDB_FIELDID_CONFIG}`,{headers:{
       "Content-Type":'application/json',
       "x-apikey":apikey
    }});
 
+   console.log(res.data);
    // });
    // const botResponse = completion.data.choices[0].text;
    // console.log({tweet:targetTweet.text,botResponse});

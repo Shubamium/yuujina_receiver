@@ -92,26 +92,34 @@ app.post('/webhook', async (req, res) => {
 
 
 async function updateLastRepliedTweetId(id){
+   try{
     const apikey = process.env.RESTDB_KEY;
-    const res = await axios.put(`https://twitterarmy-2fda.restdb.io/rest/config/647f4516a1ce30200004f1ac`,{lastTweetId:id},{headers:{
+    const res = await axios.put(`https://twitterarmy-2fda.restdb.io/rest/config/${process.env.RESTDB_FIELDID_CONFIG}`,{lastTweetId:id},{headers:{
         "Content-Type":'application/json',
         "x-apikey":apikey
     }});
+   }catch(err){
+    console.log('Failed to update the last replied tweet:',err.message);
+   }
 }
-async function getLastRepliedTweetId(){
-  // const res = await axios.get('https://twitterarmy-2fda.restdb.io/rest/config');
-    const apikey = process.env.RESTDB_KEY;
-    const res = await axios.get(`https://twitterarmy-2fda.restdb.io/rest/config/647f4516a1ce30200004f1ac`,{headers:{
-        "Content-Type":'application/json',
-        "x-apikey":apikey
-    }});
 
-    const {lastRepliedTweet} = res.data[0].lastRepliedTweet;
-    if(lastRepliedTweet){
-      return lastRepliedTweet;
-    }else{
-      return null;
-    }
+async function getLastRepliedTweetId(){
+   try{
+      const apikey = process.env.RESTDB_KEY;
+      const res = await axios.get(`https://twitterarmy-2fda.restdb.io/rest/config/${process.env.RESTDB_FIELDID_CONFIG}`,{headers:{
+          "Content-Type":'application/json',
+          "x-apikey":apikey
+      }});
+      const {lastRepliedTweet} = res.data[0].lastRepliedTweet;
+      if(lastRepliedTweet){
+        return lastRepliedTweet;
+      }else{
+        return null;
+      }
+
+   }catch(err){
+      console.log('Failed to get the last replied tweet:',err);
+   }
 
 }
 async function botReply(botData,targetTweet,gptClient){

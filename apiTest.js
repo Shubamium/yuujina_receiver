@@ -33,15 +33,27 @@ async function testGpt(){
    //    "x-apikey":apikey
    // }});
 
-   try{
-      const apikey = process.env.RESTDB_KEY;
-      const res = await axios.patch(`https://twitterarmy-2fda.restdb.io/rest/config/${process.env.RESTDB_FIELDID_CONFIG}`,{lastRepliedTweet:'1666049200134684671'},{headers:{
-          "Content-Type":'application/json',
-          "x-apikey":apikey
-      }});
-     }catch(err){
-      console.log('Failed to update the last replied tweet:',err.message);
-     }
+   console.log(await testGetRestDb());
+
+   async function testGetRestDb(){
+      try{
+         const apikey = process.env.RESTDB_KEY;
+         const res = await axios.get(`https://twitterarmy-2fda.restdb.io/rest/config/${process.env.RESTDB_FIELDID_CONFIG}`,{ headers:{
+             "Content-Type":'application/json',
+             "x-apikey":apikey
+         }});
+         const {lastRepliedTweet} = res.data;
+         if(lastRepliedTweet){
+           return lastRepliedTweet;
+         }else{
+           return null;
+         }
+   
+      }catch(err){
+         console.log('Failed to get the last replied tweet:',err);
+         return null;
+      }
+   }
 
    // console.log(res.data);
    // });

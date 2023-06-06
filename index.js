@@ -208,9 +208,9 @@ async function botReply(botData,targetTweet,gptClient){
     });
 
     const t = new TwitterApi(botData.keys);
-    const botResponse = completion.data.choices[0].text;
+    const botResponse = completion.data.choices[0].text.trim();
     console.log({...targetTweet,botResponse});
-    await t.v2.reply(botResponse,targetTweet.id);
+    await t.v2.reply(clampString(botResponse,275),targetTweet.id);
     return true;
   }catch(err){
     console.log(err);
@@ -219,7 +219,13 @@ async function botReply(botData,targetTweet,gptClient){
   }
 
 }
-// Define other routes as needed
+function clampString(toClamp,maxChar){
+  if(toClamp.length <= maxChar){
+    return toClamp;
+  }else{
+    return toClamp.substring(0,maxChar);
+  }
+}
 
 // Start the Express server
 const port = process.env.PORT || 3000;

@@ -88,12 +88,12 @@ async function botReply(botData,targetTweet,gptClient){
 
     const t = new TwitterApi(botData.twitterAT);
     const botResponse = completion.data.choices[0].text;
-    console.log({tweet:targetTweet.text,botResponse});
-    // await t.v2.reply('Another test','1666049200134684672');
-    await t.v2.reply(botResponse,'1666049200134684672');
+    console.log({...targetTweet,botResponse});
+    await t.v2.reply(botResponse,targetTweet.id);
     return true;
   }catch(err){
     console.log(err);
+    console.log(botData);
     return false;
   }
 

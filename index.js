@@ -14,13 +14,13 @@ app.post('/webhook', async (req, res) => {
    
     // Get Recent Scrape Data through apify api
     const datasetId = payload.resource.defaultDatasetId;
-    const datasetReq = null;
+    let datasetReq = null;
 
     if(!datasetId){
         console.log('Cannot get the dataset');
         res.sendStatus(200);
     }
-    
+
     try{
       datasetReq =  await axios.get(`https://api.apify.com/v2/datasets/${datasetId}/items`);
     }catch(err){
@@ -35,6 +35,7 @@ app.post('/webhook', async (req, res) => {
     const lastTweetText = datasetReq.data[1].full_text;
 
     console.log({shouldReply,lastTweetId,lastTweetId});
+    
     // Get OpenAI Client 
     const {Configuration,OpenAIApi} = require('openai');
     const configuration = new Configuration({
@@ -70,7 +71,7 @@ app.post('/webhook', async (req, res) => {
 
 
 async function botReply(botData,targetTweet,gptClient){
-  const completion = await gptClient.createCompletion({
+   const completion = await gptClient.createCompletion({
       model:"text-davinci-003",
       prompt:botData.prompt(targetTweet.text),
       max_tokens:210,

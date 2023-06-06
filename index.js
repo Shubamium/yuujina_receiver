@@ -3,6 +3,8 @@ const express = require('express');
 const { TwitterApi } = require('twitter-api-v2');
 const app = express();
 
+require('dotenv').config();
+
 app.use(express.json());
 app.get('/', (req, res) => {
   res.send('Hello, World!');
@@ -40,7 +42,7 @@ app.post('/webhook', async (req, res) => {
     const {Configuration,OpenAIApi} = require('openai');
     const configuration = new Configuration({
         organization:'org-Gd2xuhKqgIYpW1Kz6V4lRnty',
-        apiKey:'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'
+        apiKey:process.env.OPENAI_KEY
     });
     const openai = new OpenAIApi(configuration);
 

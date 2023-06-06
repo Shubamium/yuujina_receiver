@@ -119,6 +119,7 @@ async function getLastRepliedTweetId(){
 
    }catch(err){
       console.log('Failed to get the last replied tweet:',err);
+      return null;
    }
 
 }

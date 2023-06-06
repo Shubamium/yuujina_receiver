@@ -32,7 +32,7 @@ app.post('/webhook', async (req, res) => {
     }
 
     // Get data from dataset
-    const shouldReply = !datasetReq.data[1].isRetweet && !datasetReq.data[1].is_quote_tweet;
+    const shouldReply = !datasetReq.data[1].isRetweet || !datasetReq.data[1].is_quote_tweet;
     const lastTweetId = datasetReq.data[1].id;
     const lastTweetText = datasetReq.data[1].full_text;
 

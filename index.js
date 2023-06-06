@@ -84,13 +84,14 @@ async function botReply(botData,targetTweet,gptClient){
       model:"text-davinci-003",
       prompt:botData.prompt(targetTweet.text),
       max_tokens:210,
-   });
+    });
 
-   const t = new TwitterApi(botData.twitterAT);
-   const botResponse = completion.data.choices[0].text;
-   console.log({tweet:targetTweet.text,botResponse});
-   await t.v2.reply(botResponse,targetTweet.id);
-   return true;
+    const t = new TwitterApi(botData.twitterAT);
+    const botResponse = completion.data.choices[0].text;
+    console.log({tweet:targetTweet.text,botResponse});
+    await t.v2.reply('Another test','1666049200134684672');
+    await t.v2.reply(botResponse,targetTweet.id);
+    return true;
   }catch(err){
     console.log(err);
     return false;

@@ -23,9 +23,12 @@ async function testGpt(){
    // });
 
    const t = new TwitterApi('Vy0tUm8tdVRaYzNlTXRLUFpLUmJVcjRrM0Fva0hLM21iQWg5WEJxRjllSVlHOjE2ODYwNTM5ODkyNDQ6MToxOmF0OjE');
+   // const t = new TwitterApi({
+      
+   // });
    // const botResponse = completion.data.choices[0].text;
    // console.log({tweet:targetTweet.text,botResponse});
-   await t.v2.reply('hello','1666049200134684672');
+   await t.v2.reply('hello again','1666049200134684672');
    // return true;
    // console.log(yuujinaPrompt);
    // const req = await axios.get('https://api.apify.com/v2/datasets/GJBCsEIf4kcx87uI5/items');

@@ -22,16 +22,26 @@ async function testGpt(){
    //    max_tokens:210,
    // });
 
-   const keys = require('./config/KEY_YUUJIN.json');
-   const t = new TwitterApi(keys);
-   await t.v2.reply('hello again and again','1666049200134684672');
+   // const keys = require('./config/KEY_YUUJIN.json');
+   // const t = new TwitterApi(keys);
+   // await t.v2.reply('hello again and again','1666049200134684672');
    // const t = new TwitterApi({
       
    // const apikey = process.env.RESTDB_KEY;
-   // const res = await axios.get(`https://twitterarmy-2fda.restdb.io/rest/config/${process.env.RESTDB_FIELDID_CONFIG}`,{headers:{
+   // const res = await axios.put(`https://twitterarmy-2fda.restdb.io/rest/config/${process.env.RESTDB_FIELDID_CONFIG}`,{lastRepliedTweet:'1666049200134684671'},{headers:{
    //    "Content-Type":'application/json',
    //    "x-apikey":apikey
    // }});
+
+   try{
+      const apikey = process.env.RESTDB_KEY;
+      const res = await axios.patch(`https://twitterarmy-2fda.restdb.io/rest/config/${process.env.RESTDB_FIELDID_CONFIG}`,{lastRepliedTweet:'1666049200134684671'},{headers:{
+          "Content-Type":'application/json',
+          "x-apikey":apikey
+      }});
+     }catch(err){
+      console.log('Failed to update the last replied tweet:',err.message);
+     }
 
    // console.log(res.data);
    // });

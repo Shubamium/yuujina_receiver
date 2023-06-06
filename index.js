@@ -36,7 +36,6 @@ app.post('/webhook', async (req, res) => {
     const lastTweetId = datasetReq.data[1].id;
     const lastTweetText = datasetReq.data[1].full_text;
 
-    console.log({shouldReply,lastTweetId,lastTweetText});
     if(!shouldReply){
       console.log('The tweet is either a retweet or quote retweet, no need to reply');
       res.sendStatus(200);
@@ -45,6 +44,8 @@ app.post('/webhook', async (req, res) => {
 
     const repliedTweetId = await getLastRepliedTweetId();
     const alreadyReplied = lastTweetId === repliedTweetId;
+    console.log({shouldReply,lastTweetId,lastTweetText,repliedTweetId});
+
     if(alreadyReplied){
       console.log('The bots already replied to this tweet, waiting for another tweet!');
       res.sendStatus(200);
@@ -61,7 +62,7 @@ app.post('/webhook', async (req, res) => {
 
 
     // const toReply = lastTweetText;
-    const yuujinaPrompt = (toReply) => `"You're yuujina, someone who is caring and always friendly and sometimes gives helpful advice and support, I'm shuba, I'm a 18 year old web developer and game developer, you're gonna act like you're my best friend. Please don't include any hastags whatsoever and be more personal!.and I tweeted:"${toReply}". You replied:`;
+    const yuujinaPrompt = (toReply) => `"You're yuujina, someone who is caring and always friendly and sometimes gives helpful advice and support, I'm shuba, I'm a 18 year old web developer and game developer, you're gonna act like you're my best friend. Please don't include any hastags whatsoever and be more personal!. I tweeted:"${toReply}". You replied:`;
     const yuujinaKeys = require('./config/KEY_YUUJIN.json');
     const botData = {
       prompt:yuujinaPrompt,
@@ -95,7 +96,7 @@ app.post('/webhook', async (req, res) => {
 async function updateLastRepliedTweetId(id){
    try{
     const apikey = process.env.RESTDB_KEY;
-    const res = await axios.patch(`https://twitterarmy-2fda.restdb.io/rest/config/${process.env.RESTDB_FIELDID_CONFIG}`,{lastTweetId:id},{headers:{
+    const res = await axios.patch(`https://twitterarmy-2fda.restdb.io/rest/config/${process.env.RESTDB_FIELDID_CONFIG}`,{lastRepliedTweet:id},{headers:{
         "Content-Type":'application/json',
         "x-apikey":apikey
     }});

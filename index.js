@@ -11,6 +11,10 @@ app.get('/', (req, res) => {
 app.post('/webhook', async (req, res) => {
     // Use Apify to fetch data or perform scraping
     const payload = req.body;
+    if(!payload.resource){
+      res.sendStatus(200);
+      return;
+    }
     // Get Recent Scrape Data through apify api
     const datasetId = payload.resource.defaultDatasetId;
     const datasetReq = await axios.get(`https://api.apify.com/v2/datasets/${datasetId}/items`);

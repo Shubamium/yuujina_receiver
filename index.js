@@ -40,7 +40,7 @@ app.post('/webhook', async (req, res) => {
     const {Configuration,OpenAIApi} = require('openai');
     const configuration = new Configuration({
         organization:'org-Gd2xuhKqgIYpW1Kz6V4lRnty',
-        apiKey:'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'
+        apiKey:'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'
     });
     const openai = new OpenAIApi(configuration);
 

@@ -131,7 +131,7 @@ async function botReply(botData,targetTweet,gptClient){
     const completion = await gptClient.createCompletion({
       model:"text-davinci-003",
       prompt:botData.prompt(targetTweet.text),
-      max_tokens:210,
+      max_tokens:180,
     });
 
     const t = new TwitterApi(botData.keys);

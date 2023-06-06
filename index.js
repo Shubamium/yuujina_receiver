@@ -32,12 +32,16 @@ app.post('/webhook', async (req, res) => {
     }
 
     // Get data from dataset
-    const shouldReply = !datasetReq.data[1].isRetweet || !datasetReq.data[1].is_quote_tweet;
+    const isQTW = datasetReq.data[1].is_quote_tweet;
+    const isRTW = datasetReq.data[1].is_retweet;
+    const isTHR = datasetReq.data[1].is_thread;
+    const shouldReply = (isRTW === false) && (isQTW === false) && (isTHR === false);
     const lastTweetId = datasetReq.data[1].id;
     const lastTweetText = datasetReq.data[1].full_text;
 
+   
     if(!shouldReply){
-      console.log('The tweet is either a retweet or quote retweet, no need to reply');
+      console.log('The tweet is either a retweet or quote retweet or a reply tweet, no need to reply');
       res.sendStatus(200);
       return;
     }
@@ -70,6 +74,7 @@ app.post('/webhook', async (req, res) => {
 
       The person you're replying to is me,
       I'm shuba I'm a 18 year old web developer and game developer, you're gonna act like you're my best friend. 
+      You don't have to greet me.
 
       I shuba, tweeted:
       "${toReply}"

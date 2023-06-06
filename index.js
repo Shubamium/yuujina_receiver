@@ -37,6 +37,19 @@ app.post('/webhook', async (req, res) => {
     const lastTweetText = datasetReq.data[1].full_text;
 
     console.log({shouldReply,lastTweetId,lastTweetText});
+    if(!shouldReply){
+      console.log('The tweet is either a retweet or quote retweet, no need to reply');
+      res.sendStatus(200);
+      return;
+    }
+
+    const repliedTweetId = await getLastRepliedTweetId();
+    const alreadyReplied = lastTweetId === repliedTweetId;
+    if(alreadyReplied){
+      console.log('The bots already replied to this tweet, waiting for another tweet!');
+      res.sendStatus(200);
+      return;
+    }
 
     // Get OpenAI Client 
     const {Configuration,OpenAIApi} = require('openai');
@@ -66,6 +79,7 @@ app.post('/webhook', async (req, res) => {
     // initialize the twitter api wrapper v2 and login with access token
     if(success){
       console.log('Bot replied succesfully');
+      await updateLastRepliedTweetId(targetTweet.id);
     }else{
       console.log("There's something wrong when generating the reply tweet or trying to reply to the tweet");
     }
@@ -77,6 +91,29 @@ app.post('/webhook', async (req, res) => {
 });
 
 
+async function updateLastRepliedTweetId(id){
+    const apikey = process.env.RESTDB_KEY;
+    const res = await axios.put(`https://twitterarmy-2fda.restdb.io/rest/config/647f4516a1ce30200004f1ac`,{lastTweetId:id},{headers:{
+        "Content-Type":'application/json',
+        "x-apikey":apikey
+    }});
+}
+async function getLastRepliedTweetId(){
+  // const res = await axios.get('https://twitterarmy-2fda.restdb.io/rest/config');
+    const apikey = process.env.RESTDB_KEY;
+    const res = await axios.get(`https://twitterarmy-2fda.restdb.io/rest/config/647f4516a1ce30200004f1ac`,{headers:{
+        "Content-Type":'application/json',
+        "x-apikey":apikey
+    }});
+
+    const {lastRepliedTweet} = res.data[0].lastRepliedTweet;
+    if(lastRepliedTweet){
+      return lastRepliedTweet;
+    }else{
+      return null;
+    }
+
+}
 async function botReply(botData,targetTweet,gptClient){
 
   try{

@@ -22,13 +22,19 @@ async function testGpt(){
    //    max_tokens:210,
    // });
 
-   const t = new TwitterApi('Vy0tUm8tdVRaYzNlTXRLUFpLUmJVcjRrM0Fva0hLM21iQWg5WEJxRjllSVlHOjE2ODYwNTM5ODkyNDQ6MToxOmF0OjE');
+   // const t = new TwitterApi('Vy0tUm8tdVRaYzNlTXRLUFpLUmJVcjRrM0Fva0hLM21iQWg5WEJxRjllSVlHOjE2ODYwNTM5ODkyNDQ6MToxOmF0OjE');
    // const t = new TwitterApi({
       
+   const apikey = process.env.RESTDB_KEY;
+   const res = await axios.put(`https://twitterarmy-2fda.restdb.io/rest/config/647f4516a1ce30200004f1ac`,{lastRepliedTweet:'1666049200134684672'},{headers:{
+      "Content-Type":'application/json',
+      "x-apikey":apikey
+   }});
+
    // });
    // const botResponse = completion.data.choices[0].text;
    // console.log({tweet:targetTweet.text,botResponse});
-   await t.v2.reply('hello again','1666049200134684672');
+   // await t.v2.reply/('hello again','1666049200134684672');
    // return true;
    // console.log(yuujinaPrompt);
    // const req = await axios.get('https://api.apify.com/v2/datasets/GJBCsEIf4kcx87uI5/items');

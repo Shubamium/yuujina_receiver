@@ -71,7 +71,7 @@ app.post('/webhook', async (req, res) => {
       You're gonna reply to my tweet with these conditions:
       -Please don't use any hastags in the reply tweet and be more personal!,
       -Twitter has 280 characters limit so please don't break the limit.
-
+      -You don't need to greet me.
       The person you're replying to is me,
       I'm shuba I'm a 18 year old web developer and game developer, you're gonna act like you're my best friend. 
       You don't have to greet me.
@@ -81,28 +81,58 @@ app.post('/webhook', async (req, res) => {
       You replied:
     `;
 
+    const EI_Jesus = (toReply)=>`
+      You're AI Jesus, you will speak the word of god and bring light to whatever I'm tweeting and give your holy words and advice and include the bible verse occasionaly. 
+      You're gonna reply to my tweet with these conditions:
+        -Please don't use any hastags in the reply tweet and be more personal!,
+        -Twitter has 280 characters limit so please don't break the limit.
+        -You don't need to greet me.
+
+        The person you're replying to is me,
+        I'm shuba I'm a 18 year old web developer and game developer, you're gonna act like you're my best friend. 
+        You don't have to greet me.
+
+        I shuba, tweeted:
+        "${toReply}"
+        You replied:
+    `
     const yuujinaKeys = require('./config/KEY_YUUJIN.json');
-    const botData = {
-      prompt:yuujinaPrompt,
-      keys:yuujinaKeys
-    }
+    const jesusKeys = require('./config/KEY_JESUS.json');
+    const botData = [
+      {
+        prompt:yuujinaPrompt,
+        keys:yuujinaKeys
+      },
+      {
+        prompt:EI_Jesus,
+        keys:jesusKeys
+      }
+    ]
     const targetTweet = {
       id:lastTweetId,text:lastTweetText
     }
-    const success = await botReply(botData,targetTweet,openai);
+    const success = []
+    // reply with each bot
+    success.push(await botReply(botData[0],targetTweet,openai));
+    success.push(await botReply(botData[1],targetTweet,openai));
 
+    if(success.every((tries) => {
+      if(tries){return true}else{return false};
+    })){
+      console.log('Bot replied succesfully');
+      await updateLastRepliedTweetId(targetTweet.id);
+    }else{
+      console.log("There's something wrong when generating the reply tweet or trying to reply to the tweet");
+    }
+
+
+    // TO DO LIST----
     // Get last replied tweet id from a simple rest api database;
     // Compare the twoo
     // If it's the same id then don't reply
     // If it isn't the same id then it's a new tweet
     // If it's a new tweet then get the full text   
     // initialize the twitter api wrapper v2 and login with access token
-    if(success){
-      console.log('Bot replied succesfully');
-      await updateLastRepliedTweetId(targetTweet.id);
-    }else{
-      console.log("There's something wrong when generating the reply tweet or trying to reply to the tweet");
-    }
     // Get openAI chat gpt to generate a response based on the tweet
     // reply to twitter with the lastTweetId
     // Do the same for every alt account you have

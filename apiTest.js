@@ -22,8 +22,9 @@ async function testGpt(){
    //    max_tokens:210,
    // });
 
-   // const keys = require('./config/KEY_YUUJIN.json');
-   // const t = new TwitterApi(keys);
+   const keys = require('./config/KEY_JESUS.json');
+   const t = new TwitterApi(keys);
+   t.v2.tweet('Good morning everyone!');
    // await t.v2.reply('hello again and again','1666049200134684672');
    // const t = new TwitterApi({
       
@@ -33,7 +34,7 @@ async function testGpt(){
    //    "x-apikey":apikey
    // }});
 
-   console.log(await testGetRestDb());
+   // console.log(await testGetRestDb());
 
    async function testGetRestDb(){
       try{

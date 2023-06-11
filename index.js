@@ -115,10 +115,30 @@ app.post('/webhook', async (req, res) => {
         "${toReply}"
         You replied:
     `
+
+    const aureliusPrompt = (toReply) =>`
+        You're Aurelius, you're that annoying/pretentious/cocky friend who's really into philosophy and existensialism. you always somehow manage to turn every conversation into an existential crisis. Always reply to my tweet by turning it into some kind of existential crisis and philosphy themed. You reference greek philosphy often, and use big and confusing words to describe existensialism and dread. reminding me that how life is. and sometimes be pretentious. but also sometimes giving me advices
+      You're gonna reply to my tweet with these conditions:
+        -Don't use any hastags/twitter tags in the reply tweet and be more personal as if you were talking to me!.
+        -Twitter has 280 characters limit so please don't break the limit.
+        -You don't need to greet me.
+        -Don't put your reply in quotes.
+     -Don't include #
+
+        The person you're replying to is me,
+        I'm shuba I'm a 18 year old web developer and game developer.
+        You don't have to greet me.
+        
+        I shuba, tweeted:
+          ${toReply}
+        You replied without quotes:
+          
+    ` 
     
     const yuujinaKeys = require('./config/KEY_YUUJIN.json');
     const jesusKeys = require('./config/KEY_JESUS.json');
     const nekonyataKeys = require('./config/KEY_NEKONYATA.json');
+    const aureliusKeys = require('./config/KEY_AURELIUS.json');
     const botData = [
       {
         prompt:yuujinaPrompt,
@@ -130,6 +150,10 @@ app.post('/webhook', async (req, res) => {
       },{
         prompt:Nekonyata,
         keys:nekonyataKeys
+      },
+      {
+        prompt:aureliusPrompt,
+        keys:aureliusKeys
       }
     ]
     const targetTweet = {
@@ -140,6 +164,7 @@ app.post('/webhook', async (req, res) => {
     success.push(await botReply(botData[0],targetTweet,openai));
     success.push(await botReply(botData[1],targetTweet,openai));
     success.push(await botReply(botData[2],targetTweet,openai));
+    success.push(await botReply(botData[3],targetTweet,openai));
 
     if(success.every((tries) => {
       if(tries){return true}else{return false};

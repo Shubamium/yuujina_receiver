@@ -2,7 +2,7 @@ const { default: axios } = require("axios");
 const express = require("express");
 const { TwitterApi } = require("twitter-api-v2");
 const app = express();
-const removeLink = require("removeLink").removeLink;
+const removeLink = require("./removeLink").removeLink;
 
 require("dotenv").config();
 

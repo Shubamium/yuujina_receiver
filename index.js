@@ -2,6 +2,7 @@ const { default: axios } = require("axios");
 const express = require("express");
 const { TwitterApi } = require("twitter-api-v2");
 const app = express();
+const removeLink = require("removeLink").removeLink;
 
 require("dotenv").config();
 
@@ -167,22 +168,27 @@ app.post("/webhook", async (req, res) => {
   // List of bots and it's config
   const botData = [
     {
+      name: "Yuujin A",
       prompt: yuujinaPrompt,
       keys: yuujinaKeys,
     },
     {
+      name: "EI Jesus",
       prompt: EI_Jesus,
       keys: jesusKeys,
     },
     {
+      name: "Nekonyata",
       prompt: Nekonyata,
       keys: nekonyataKeys,
     },
     {
+      name: "Aurelius MK",
       prompt: aureliusPrompt,
       keys: aureliusKeys,
     },
     {
+      name: "John Law",
       prompt: johnlawPrompt,
       keys: johnKeys,
     },
@@ -273,6 +279,7 @@ async function getLastRepliedTweetId() {
   }
 }
 async function botReply(botData, targetTweet, gptClient) {
+  console.log(`Trying to reply for bot:${botData.name || "No name bot"}`);
   try {
     const completion = await gptClient.createCompletion({
       model: "text-davinci-003",
